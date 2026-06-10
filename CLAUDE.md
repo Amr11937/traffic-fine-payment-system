@@ -35,5 +35,5 @@ A national traffic-fine payment system for Sri Lanka Police:
 - [x] SMS integration
 - [x] Admin reporting endpoints
 - [x] Public web payment app
-- [ ] Admin web portal
-- [ ] Android app
+- [x] Admin web portal
+- [x] Android app

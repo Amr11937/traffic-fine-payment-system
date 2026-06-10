@@ -1,0 +1,18 @@
+# Environment / secrets
+.env
+
+# Maven
+backend/target/
+
+# Node
+web-payment/node_modules/
+admin-portal/node_modules/
+
+# Flutter
+mobile-app/.dart_tool/
+mobile-app/build/
+
+# IDEs
+.idea/
+*.iml
+.vscode/

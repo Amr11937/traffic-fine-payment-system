@@ -29,7 +29,7 @@ A national traffic-fine payment system for Sri Lanka Police:
 
 ## Status
 
-- [ ] Backend skeleton + database schema
+- [x] Backend skeleton + database schema
 - [ ] JWT auth
 - [ ] Fine + payment endpoints
 - [ ] SMS integration

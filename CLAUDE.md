@@ -33,7 +33,7 @@ A national traffic-fine payment system for Sri Lanka Police:
 - [x] JWT auth
 - [x] Fine + payment endpoints
 - [x] SMS integration
-- [ ] Admin reporting endpoints
+- [x] Admin reporting endpoints
 - [ ] Public web payment app
 - [ ] Admin web portal
 - [ ] Android app

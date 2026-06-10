@@ -16,3 +16,11 @@ mobile-app/build/
 .idea/
 *.iml
 .vscode/
+
+# Frontend
+node_modules/
+dist/
+*.local
+
+# Vite env files (keep .env.example, ignore real .env)
+.env

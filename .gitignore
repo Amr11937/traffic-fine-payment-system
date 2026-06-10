@@ -24,3 +24,5 @@ dist/
 
 # Vite env files (keep .env.example, ignore real .env)
 .env
+
+CLAUDE.md

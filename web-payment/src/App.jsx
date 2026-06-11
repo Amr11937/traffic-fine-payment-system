@@ -41,24 +41,11 @@ export default function App() {
     <div className="app-wrapper">
       <header className="site-header">
         <div className="header-inner">
-          <span className="header-emblem" aria-hidden="true">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M12 2.5 19 5.2v6c0 4.6-3 7.9-7 9.3-4-1.4-7-4.7-7-9.3v-6L12 2.5Z"
-                fill="rgba(255,255,255,0.16)"
-                stroke="#f0b429"
-                strokeWidth="1.4"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M8.6 12.2 11 14.6l4.4-4.6"
-                stroke="#ffffff"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </span>
+          <img
+            src="/police-logo.png"
+            alt="Sri Lanka Police"
+            className="header-logo"
+          />
           <div className="header-text">
             <span className="header-eyebrow">Sri Lanka Police</span>
             <h1 className="header-title">Traffic Fine Payment Portal</h1>

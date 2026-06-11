@@ -28,30 +28,43 @@ class BrandedAppBar extends StatelessWidget implements PreferredSizeWidget {
       iconTheme: const IconThemeData(color: Colors.white),
       systemOverlayStyle: SystemUiOverlayStyle.light,
       actions: actions,
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      title: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            'SRI LANKA POLICE',
-            style: TextStyle(
-              fontSize: 8,
-              fontWeight: FontWeight.w800,
-              letterSpacing: 1.4,
-              color: AppColors.goldLight,
-              height: 1,
-            ),
+          Image.asset(
+            'assets/police-logo.png',
+            height: 40,
+            width: 40,
+            fit: BoxFit.contain,
+            filterQuality: FilterQuality.high,
           ),
-          const SizedBox(height: 3),
-          Text(
-            title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 15.5,
-              fontWeight: FontWeight.w700,
-              letterSpacing: -0.2,
-              height: 1.1,
-            ),
+          const SizedBox(width: 10),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'SRI LANKA POLICE',
+                style: TextStyle(
+                  fontSize: 8,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 1.4,
+                  color: AppColors.goldLight,
+                  height: 1,
+                ),
+              ),
+              const SizedBox(height: 3),
+              Text(
+                title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 15.5,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: -0.2,
+                  height: 1.1,
+                ),
+              ),
+            ],
           ),
         ],
       ),

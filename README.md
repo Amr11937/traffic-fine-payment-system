@@ -225,14 +225,3 @@ Terminal 4 → cd mobile-app   && flutter run
 On successful payment, the system calls a `NotificationService` interface to send an SMS to the issuing traffic officer so the driver can retrieve their licence. The current implementation is a **mock** that logs to the console instead of sending a real SMS. To integrate a real provider (Twilio, Notify.lk, Text.lk, etc.), implement the `NotificationService` interface and register it as a Spring bean — no other code changes are needed.
 
 ---
-
-## Build Status
-
-- [x] Backend skeleton + database schema
-- [x] JWT authentication
-- [x] Fine lookup and payment endpoints
-- [x] SMS notification interface (mock)
-- [x] Admin reporting endpoints (summary, by-district, by-category)
-- [x] Public web payment app
-- [x] Admin web portal
-- [x] Android mobile app

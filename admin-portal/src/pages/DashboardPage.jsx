@@ -1,42 +1,37 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import { useAuth } from '../auth/AuthContext'
 import { getSummary, getByDistrict, getByCategory } from '../api/adminApi'
 import SummaryCards from './components/SummaryCards'
 import DistrictSection from './components/DistrictSection'
 import CategorySection from './components/CategorySection'
+import SkeletonDashboard from '../components/SkeletonDashboard'
+import { pageVariants, sectionStagger, fadeUpItem, buttonMotion } from '../motion/variants'
 
 export default function DashboardPage() {
   const { logout } = useAuth()
-  const navigate = useNavigate()
-  const [data, setData] = useState(null)
+  const navigate   = useNavigate()
+  const [data, setData]       = useState(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const [error, setError]     = useState('')
 
   useEffect(() => {
     let cancelled = false
-
     async function load() {
       try {
         const [summary, districts, categories] = await Promise.all([
-          getSummary(),
-          getByDistrict(),
-          getByCategory(),
+          getSummary(), getByDistrict(), getByCategory(),
         ])
         if (!cancelled) setData({ summary, districts, categories })
       } catch (err) {
         if (cancelled) return
-        if (err.status === 401 || err.status === 403) {
-          logout()
-          navigate('/', { replace: true })
-          return
-        }
+        if (err.status === 401 || err.status === 403) { logout(); navigate('/', { replace: true }); return }
         setError('Failed to load report data. Please try again.')
       } finally {
         if (!cancelled) setLoading(false)
       }
     }
-
     load()
     return () => { cancelled = true }
   }, [logout, navigate])
@@ -47,35 +42,73 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="dashboard-page">
+    <motion.div
+      className="dashboard-page bg-dashboard"
+      variants={pageVariants}
+      initial="initial"
+      animate="enter"
+      exit="exit"
+    >
       <header className="header">
         <div className="header-inner">
-          <span className="badge">SL Police</span>
-          <span className="header-title">Admin Portal — Nationwide Collections</span>
+          <span className="header-emblem" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 2.5 19 5.2v6c0 4.6-3 7.9-7 9.3-4-1.4-7-4.7-7-9.3v-6L12 2.5Z"
+                fill="rgba(255,255,255,0.14)"
+                stroke="#f0b429"
+                strokeWidth="1.4"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
+          <div className="header-text">
+            <span className="header-eyebrow">Sri Lanka Police</span>
+            <span className="header-title">Admin Portal — Nationwide Collections</span>
+          </div>
         </div>
-        <button className="btn-logout" onClick={handleLogout}>Logout</button>
+
+        <motion.button
+          className="btn-logout"
+          onClick={handleLogout}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
+          transition={buttonMotion.transition}
+        >
+          Sign Out
+        </motion.button>
       </header>
 
       <main className="dashboard-main">
-        {loading && (
-          <div className="loading-wrap">
-            <div className="spinner" aria-label="Loading reports" />
-            <p>Loading report data…</p>
+        {loading && <SkeletonDashboard />}
+
+        {error && !loading && (
+          <div className="dashboard-error">
+            <div className="err-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2" />
+                <path d="M12 7.5v5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                <circle cx="12" cy="16" r="1.1" fill="currentColor" />
+              </svg>
+            </div>
+            <p>{error}</p>
           </div>
         )}
 
-        {error && !loading && (
-          <div className="error-message" role="alert">{error}</div>
-        )}
-
         {data && !loading && (
-          <>
-            <SummaryCards summary={data.summary} />
-            <DistrictSection districts={data.districts} />
-            <CategorySection categories={data.categories} />
-          </>
+          <motion.div variants={sectionStagger} initial="hidden" animate="show">
+            <motion.div variants={fadeUpItem}>
+              <SummaryCards summary={data.summary} />
+            </motion.div>
+            <motion.div variants={fadeUpItem}>
+              <DistrictSection districts={data.districts} />
+            </motion.div>
+            <motion.div variants={fadeUpItem}>
+              <CategorySection categories={data.categories} />
+            </motion.div>
+          </motion.div>
         )}
       </main>
-    </div>
+    </motion.div>
   )
 }

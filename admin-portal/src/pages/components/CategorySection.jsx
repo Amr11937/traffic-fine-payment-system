@@ -1,65 +1,120 @@
+import { motion } from 'framer-motion'
 import {
-  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid,
+  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Cell,
 } from 'recharts'
+import { staggerContainer, fadeUpItem } from '../../motion/variants'
 
 const fmtCurrency = (v) =>
   `LKR ${Number(v).toLocaleString('en-LK', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
 
+const COLORS = [
+  '#0e7490', '#0d87a8', '#0c9cc0', '#0ab1d8', '#15b8e0',
+  '#1ec0e8', '#27c8f0', '#32d0f6',
+]
+
+function CustomTooltip({ active, payload, label, categories }) {
+  if (!active || !payload?.length) return null
+  const cat = categories?.find((c) => c.categoryCode === label)
+  return (
+    <div style={{
+      background: '#fff',
+      border: '1px solid #e5e7eb',
+      borderRadius: 10,
+      padding: '10px 14px',
+      boxShadow: '0 4px 16px rgba(15,26,44,0.12)',
+      fontSize: '0.85rem',
+      maxWidth: 220,
+    }}>
+      <p style={{ fontWeight: 700, color: '#111827', marginBottom: 4 }}>
+        {cat ? cat.categoryDescription : label}
+      </p>
+      <p style={{ color: '#0e7490', fontWeight: 600 }}>{fmtCurrency(payload[0].value)}</p>
+    </div>
+  )
+}
+
 export default function CategorySection({ categories }) {
   return (
     <section className="report-section">
-      <h3 className="section-heading">Collections by Fine Category</h3>
+      <h3 className="section-heading">
+        <span className="section-heading-icon" aria-hidden="true" style={{ background: '#ecfeff', color: '#0e7490' }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="3" width="8" height="8" rx="2" stroke="currentColor" strokeWidth="2" />
+            <rect x="13" y="3" width="8" height="8" rx="2" stroke="currentColor" strokeWidth="2" />
+            <rect x="3" y="13" width="8" height="8" rx="2" stroke="currentColor" strokeWidth="2" />
+            <rect x="13" y="13" width="8" height="8" rx="2" stroke="currentColor" strokeWidth="2" />
+          </svg>
+        </span>
+        Collections by Fine Category
+      </h3>
+
       <div className="section-grid">
         <div className="table-wrap">
-          <table className="report-table">
+          <motion.table
+            className="report-table"
+            variants={staggerContainer}
+            initial="hidden"
+            animate="show"
+          >
             <thead>
               <tr>
                 <th>Code</th>
                 <th>Category</th>
                 <th>Total Collected</th>
-                <th>Paid Count</th>
+                <th>Paid</th>
               </tr>
             </thead>
             <tbody>
               {categories.map((row) => (
-                <tr key={row.categoryCode}>
-                  <td><code>{row.categoryCode}</code></td>
+                <motion.tr key={row.categoryCode} variants={fadeUpItem}>
+                  <td><span className="code-chip">{row.categoryCode}</span></td>
                   <td>{row.categoryDescription}</td>
-                  <td>{fmtCurrency(row.totalCollected)}</td>
-                  <td>{row.paidCount}</td>
-                </tr>
+                  <td className="amount-cell">{fmtCurrency(row.totalCollected)}</td>
+                  <td className="count-cell">{row.paidCount}</td>
+                </motion.tr>
               ))}
             </tbody>
-          </table>
+          </motion.table>
         </div>
 
         <div className="chart-wrap">
-          <ResponsiveContainer width="100%" height={280}>
+          <ResponsiveContainer width="100%" height={290}>
             <BarChart
               data={categories}
-              margin={{ top: 8, right: 16, left: 8, bottom: 50 }}
+              margin={{ top: 8, right: 12, left: 4, bottom: 55 }}
             >
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
               <XAxis
                 dataKey="categoryCode"
-                angle={-35}
+                angle={-40}
                 textAnchor="end"
-                tick={{ fontSize: 11 }}
+                tick={{ fontSize: 11, fill: '#6b7280', fontFamily: 'Inter, sans-serif' }}
                 interval={0}
+                axisLine={false}
+                tickLine={false}
               />
               <YAxis
                 tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`}
-                tick={{ fontSize: 11 }}
-                width={45}
+                tick={{ fontSize: 11, fill: '#6b7280', fontFamily: 'Inter, sans-serif' }}
+                width={42}
+                axisLine={false}
+                tickLine={false}
               />
               <Tooltip
-                formatter={(v) => [fmtCurrency(v), 'Collected']}
-                labelFormatter={(label) => {
-                  const cat = categories.find((c) => c.categoryCode === label)
-                  return cat ? cat.categoryDescription : label
-                }}
+                content={(props) => <CustomTooltip {...props} categories={categories} />}
+                cursor={{ fill: '#f0fdfe' }}
               />
-              <Bar dataKey="totalCollected" fill="#0e7490" radius={[3, 3, 0, 0]} />
+              <Bar
+                dataKey="totalCollected"
+                radius={[4, 4, 0, 0]}
+                isAnimationActive
+                animationDuration={1000}
+                animationEasing="ease-out"
+              >
+                {categories.map((_, i) => (
+                  <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                ))}
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>

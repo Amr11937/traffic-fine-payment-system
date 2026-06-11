@@ -49,19 +49,8 @@ export default function LoginPage() {
     >
       <header className="header">
         <div className="header-inner">
-          <span className="header-emblem" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M12 2.5 19 5.2v6c0 4.6-3 7.9-7 9.3-4-1.4-7-4.7-7-9.3v-6L12 2.5Z"
-                fill="rgba(255,255,255,0.14)"
-                stroke="#f0b429"
-                strokeWidth="1.4"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </span>
+          <img src="/police-logo.png" alt="Sri Lanka Police" className="header-logo" />
           <div className="header-text">
-            <span className="header-eyebrow">Sri Lanka Police</span>
             <span className="header-title">Traffic Fine System — Admin Portal</span>
           </div>
         </div>
@@ -76,25 +65,7 @@ export default function LoginPage() {
         >
           {/* Centred logo / brand block */}
           <motion.div className="login-logo" variants={fadeUpItem}>
-            <div className="login-emblem" aria-hidden="true">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M12 2.5 19 5.2v6c0 4.6-3 7.9-7 9.3-4-1.4-7-4.7-7-9.3v-6L12 2.5Z"
-                  fill="rgba(255,255,255,0.16)"
-                  stroke="#f0b429"
-                  strokeWidth="1.6"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M9 12.2 11.4 14.6l3.8-4"
-                  stroke="#ffffff"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-            <span className="login-brand">Sri Lanka Police</span>
+            <img src="/police-logo.png" alt="Sri Lanka Police" className="login-logo-img" />
           </motion.div>
 
           <motion.h2 className="login-heading" variants={fadeUpItem}>

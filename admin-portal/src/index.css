@@ -135,28 +135,15 @@ body {
   gap: 12px;
 }
 
-.header-emblem {
-  width: 36px;
-  height: 36px;
+.header-logo {
+  height: 40px;
+  width: auto;
   flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  background: rgba(255,255,255,0.12);
-  border: 1px solid rgba(255,255,255,0.2);
+  object-fit: contain;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.35));
 }
 
 .header-text { display: flex; flex-direction: column; gap: 1px; }
-
-.header-eyebrow {
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--gold-light);
-  line-height: 1;
-}
 
 .header-title {
   font-size: 0.98rem;
@@ -227,29 +214,16 @@ body {
 
 .login-logo {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
   margin-bottom: 32px;
 }
 
-.login-emblem {
-  width: 64px;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 18px;
-  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-700) 100%);
-  box-shadow: 0 8px 24px rgba(26,79,138,0.28);
-}
-
-.login-brand {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--gold);
+.login-logo-img {
+  height: 80px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(26,79,138,0.28));
 }
 
 .login-heading {

@@ -1,7 +1,10 @@
 import { useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import { lookupFine } from '../api/fineApi'
 import ErrorMessage from './ErrorMessage'
 import LoadingSpinner from './LoadingSpinner'
+import AnimatedField from './AnimatedField'
+import { staggerContainer, fadeUpItem, buttonMotion } from '../motion/variants'
 
 export default function LookupForm({ onFineFound }) {
   const [referenceNumber, setReferenceNumber] = useState('')
@@ -23,49 +26,70 @@ export default function LookupForm({ onFineFound }) {
     }
   }
 
+  const disabled = loading || !referenceNumber.trim() || !categoryCode.trim()
+
   return (
-    <div className="card">
-      <h2 className="card-title">Look Up Your Fine</h2>
-      <p className="card-subtitle">
-        Enter the reference number and category code from your traffic fine notice.
-      </p>
+    <motion.div
+      className="card"
+      variants={staggerContainer}
+      initial="hidden"
+      animate="show"
+    >
+      <motion.h2 className="card-title" variants={fadeUpItem}>
+        Look Up Your Fine
+      </motion.h2>
+      <motion.p className="card-subtitle" variants={fadeUpItem}>
+        Enter the reference number and category code printed on your traffic fine notice.
+      </motion.p>
+
       <form onSubmit={handleSubmit} noValidate>
-        <div className="field">
-          <label htmlFor="refNum" className="field-label">Fine Reference Number</label>
-          <input
+        <motion.div variants={fadeUpItem}>
+          <AnimatedField
             id="refNum"
-            type="text"
-            className="field-input"
-            placeholder="e.g. TF-20260610-001"
+            label="Fine Reference Number"
+            placeholder="TF-20260610-001"
             value={referenceNumber}
             onChange={e => setReferenceNumber(e.target.value)}
-            required
             disabled={loading}
             autoFocus
           />
-        </div>
-        <div className="field">
-          <label htmlFor="catCode" className="field-label">Category Code</label>
-          <input
+        </motion.div>
+
+        <motion.div variants={fadeUpItem}>
+          <AnimatedField
             id="catCode"
-            type="text"
-            className="field-input"
-            placeholder="e.g. SPD"
+            label="Category Code"
+            placeholder="SPD"
             value={categoryCode}
             onChange={e => setCategoryCode(e.target.value)}
-            required
             disabled={loading}
+            hint="The short code for the offence, e.g. SPD for speeding."
           />
-        </div>
-        {error && <ErrorMessage message={error} />}
-        <button
+        </motion.div>
+
+        <AnimatePresence>
+          {error && <ErrorMessage key="err" message={error} />}
+        </AnimatePresence>
+
+        <motion.button
           type="submit"
           className="btn-primary"
-          disabled={loading || !referenceNumber.trim() || !categoryCode.trim()}
+          style={{ width: '100%', marginTop: '0.5rem' }}
+          disabled={disabled}
+          variants={fadeUpItem}
+          whileHover={!disabled ? buttonMotion.whileHover : undefined}
+          whileTap={!disabled ? buttonMotion.whileTap : undefined}
+          transition={buttonMotion.transition}
         >
-          {loading ? <><LoadingSpinner /> Looking up…</> : 'Look Up Fine'}
-        </button>
+          {loading ? (
+            <>
+              <LoadingSpinner /> Looking up…
+            </>
+          ) : (
+            'Look Up Fine'
+          )}
+        </motion.button>
       </form>
-    </div>
+    </motion.div>
   )
 }
